@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Check argument
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 filename"
+    exit 1
+fi
+
+file=$1
+
+while true
+do
+    if [ -e "$file" ]; then
+        echo "File is safe"
+    else
+        msg="$(date): ERROR - File not found: $file"
+        
+        echo "$msg" >&2       # Send to stderr
+        echo "$msg" >> error.log   # Save to log file
+    fi
+
+    sleep 5
+done
