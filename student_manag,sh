@@ -1,0 +1,67 @@
+#!/bin/bash
+
+DB="students.txt"
+
+while true
+do
+    echo "============================"
+    echo " STUDENT DATABASE SYSTEM "
+    echo "============================"
+
+    echo "1. Add Student"
+    echo "2. View Students"
+    echo "3. Search Student"
+    echo "4. Update Student"
+    echo "5. Delete Student"
+    echo "6. Sort by GPA"
+    echo "7. Exit"
+
+    read ch
+
+    case $ch in
+
+        1)
+            read -p "ID: " id
+            read -p "Name: " name
+            read -p "CGPA: " gpa
+
+            echo "$id|$name|$gpa" >> $DB
+            ;;
+
+        2)
+            column -t -s "|" $DB
+            ;;
+
+        3)
+            read -p "Enter ID: " sid
+            grep "^$sid" $DB
+            ;;
+
+        4)
+            read -p "Enter ID: " uid
+
+            grep -v "^$uid" $DB > temp.txt
+
+            read -p "New Name: " nname
+            read -p "New GPA: " ngpa
+
+            echo "$uid|$nname|$ngpa" >> temp.txt
+
+            mv temp.txt $DB
+            ;;
+
+        5)
+            read -p "Enter ID: " did
+            grep -v "^$did" $DB > temp.txt
+            mv temp.txt $DB
+            ;;
+
+        6)
+            sort -t "|" -k3 -nr $DB
+            ;;
+
+        7)
+            exit
+            ;;
+    esac
+done
